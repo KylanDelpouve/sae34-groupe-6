@@ -1,4 +1,10 @@
-FROM kylemanna/openvpn
+FROM debian:trixie-slim
 
-# Configuration will be needed for certificates generation
-# Configuration VPN validée
+RUN apt-get update && \
+    apt-get install -y openvpn iproute2 iptables && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY server.conf /etc/openvpn/server.conf
+COPY secret.key /etc/openvpn/secret.key
+
+CMD ["openvpn", "--config", "/etc/openvpn/server.conf"]
