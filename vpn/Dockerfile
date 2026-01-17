@@ -8,3 +8,4 @@ COPY server.conf /etc/openvpn/server.conf
 COPY secret.key /etc/openvpn/secret.key
 
 CMD ["openvpn", "--config", "/etc/openvpn/server.conf"]
+#
