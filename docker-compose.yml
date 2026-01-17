@@ -41,6 +41,10 @@ services:
       - pop-net
     ports:
       - "1812:1812/udp"
+      - "1813:1813/udp"
+    # volumes:
+    #   - ./radius/config/users:/etc/freeradius/3.0/users
+    #   - ./radius/config/clients.conf:/etc/freeradius/3.0/clients.conf
 
   postgres:
     build: ./postgres
