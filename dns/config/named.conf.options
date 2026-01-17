@@ -1,13 +1,22 @@
 options {
+    // Dossier de travail par defaut de Debian
     directory "/var/cache/bind";
 
+    // Ecouter sur toutes les cartes reseau du conteneur
+    listen-on { any; };
+
+    // Serveurs de secours pour aller sur Internet (Google)
     forwarders {
         8.8.8.8;
+        8.8.4.4;
     };
 
-    allow-query { 172.16.0.0/12; localhost; };
+    // J'autorise tout le monde a poser des questions
+    allow-query { any; };
 
+    // Desactive la securite DNSSEC pour le projet local
     dnssec-validation no;
 
+    // Meme chose que listen-on mais pour l'IPv6
     listen-on-v6 { any; };
 };

@@ -6,4 +6,4 @@ COPY config/ /etc/bind/
 
 EXPOSE 53/udp 53/tcp
 
-CMD ["named", "-g"]
+CMD ["/usr/sbin/named", "-g", "-u", "bind"]
