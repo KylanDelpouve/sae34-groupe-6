@@ -13,3 +13,5 @@ RUN chown -R root:freerad /etc/freeradius/3.0/ && \
 
 # On lance FreeRADIUS en mode debug
 CMD ["freeradius", "-X"]
+
+
