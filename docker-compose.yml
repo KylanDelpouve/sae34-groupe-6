@@ -36,6 +36,18 @@ services:
     devices:
       - /dev/net/tun
 
+  vpn_client:
+    build:
+      context: ./vpn
+      dockerfile: Dockerfile.client
+    container_name: vpn_client
+    networks:
+      - pop-net
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
+
   radius:
     build: ./radius
     container_name: radius_server
