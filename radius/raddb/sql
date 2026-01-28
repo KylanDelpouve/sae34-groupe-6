@@ -1,0 +1,173 @@
+#  -*- text -*-
+#
+#  $Id: 0422da8557ee7111242337190ca50444ff53e8e2 $
+
+#
+#  The SQL module.
+#
+#  The "sql" section should be placed in the "instantiate" section of
+#  radiusd.conf.
+#
+sql {
+	#
+	#  The dialect of SQL being used.
+	#
+	#  Allowed dialects are:
+	#
+	#	mssql
+	#	mysql
+	#	oracle
+	#	postgresql
+	#	sqlite
+	#	mongo
+	#
+	dialect = "postgresql"
+
+	#
+	#  The driver module used to execute the queries.
+	#
+	driver = "rlm_sql_postgresql"
+
+	#
+	#  The "driver" and "dialect" parameters above should be all that you
+	#  need to set.
+	#
+
+	#
+	#  Administrator connection configuration.
+	#
+	#  These parameters are used to connect to the database.
+	#
+	#  The "server" parameter is the hostname or IP address of the
+	#  SQL server.
+	#
+	server = "postgres_db"
+
+	#
+	#  The "port" parameter is the TCP port number of the SQL server.
+	#
+	port = 5432
+
+	#
+	#  The "login" parameter is the username to use when connecting to
+	#  the SQL server.
+	#
+	login = "user"
+
+	#
+	#  The "password" parameter is the password to use when connecting to
+	#  the SQL server.
+	#
+	password = "password"
+
+	#
+	#  The "radius_db" parameter is the name of the database to use.
+	#
+	radius_db = "mydb"
+
+	#
+	#  Database table configuration
+	#
+	#  The following parameters define the names of the tables in the
+	#  SQL database.
+	#
+    # REQUIRED: Table names must be defined even if using defaults
+    radcheck_table = "radcheck"
+    radreply_table = "radreply"
+    groupcheck_table = "radgroupcheck"
+    groupreply_table = "radgroupreply"
+    usergroup_table = "radusergroup"
+    client_table = "nas" 
+    
+    # Mapping for queries.conf
+    authcheck_table = "${radcheck_table}"
+    authreply_table = "${radreply_table}"
+    
+    postauth_table = "radpostauth"
+    
+    # Init-Zero for safety if used
+    simul_count_query = ""
+    simul_verify_query = ""
+    groupcheck_table = "radgroupcheck"
+    groupreply_table = "radgroupreply"
+    usergroup_table = "radusergroup"
+    client_table = "nas" 
+    
+    # If using accounting
+    acct_table1 = "radacct"
+    acct_table2 = "radacct"
+
+	#
+	#  Connection pool configuration
+	#
+	pool {
+		#  Connections to start with
+		start = 5
+
+		#  Minimum number of connections to keep open
+		min = 3
+
+		#  Maximum number of connections
+		#
+		#  If more than this number of threads are needed, then the
+		#  request is REJECTED.
+		#
+		max = 32
+
+		#  Spare connections to keep open
+		spare = 10
+
+		#  Number of uses before the connection is closed
+		#
+		#  0 means "infinite"
+		#
+		uses = 0
+
+		#  The lifetime (in seconds) of the connection
+		#
+		#  0 means "infinite"
+		#
+		lifetime = 0
+
+		#  The cleanup interval (in seconds)
+		cleanup_interval = 30
+
+		#  The idle timeout (in seconds)
+		#
+		#  If a connection is idle for more than this time, it is
+		#  closed.
+		#
+		idle_timeout = 60
+
+		#  The retry delay (in seconds)
+		#
+		#  If a connection fails, wait this long before trying to
+		#  connect again.
+		#
+		retry_delay = 30
+
+		#  The maximum number of retries
+		#
+		#  If a connection fails, try to reconnect this many times
+		#  before giving up.
+		#
+		max_retries = 5
+
+		#  The spread (in seconds)
+		#
+		#  The retry delay will be randomized by this amount.
+		#
+		spread = no
+	}
+
+	#
+	#  Attribute configuration
+	#
+	#  The "group_attribute" parameter is the attribute that contains
+	#  the group name.
+	#
+	group_attribute = "SQL-Group"
+
+	# Read database-specific queries
+	$INCLUDE ${modconfdir}/${.:name}/main/${dialect}/queries.conf
+}
