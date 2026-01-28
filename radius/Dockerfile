@@ -3,8 +3,8 @@ FROM debian:trixie-slim
 RUN apt-get update && apt-get install -y freeradius freeradius-utils
 
 # Copie de la configuration
-COPY config/clients.conf /etc/freeradius/3.0/clients.conf
-COPY config/users /etc/freeradius/3.0/mods-config/files/authorize
+COPY raddb/clients.conf /etc/freeradius/3.0/clients.conf
+COPY raddb/users /etc/freeradius/3.0/mods-config/files/authorize
 
 # On change le propriétaire en root:freerad (groupe par défaut sous Debian) et on restreint les droits
 # 640 : Lecture/Écriture root, Lecture groupe freerad (pour que le démon puisse lire le secret), Rien pour les autres.
